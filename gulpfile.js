@@ -1,41 +1,48 @@
-const   gulp = require('gulp');
-        sass = require('gulp-sass');
+const gulp = require('gulp'),
+      sass = require('gulp-sass'),
+      del  = require('del');
 
-// Whenever I run the task 'build',
-// it will require the tasks 'compile-css',...
-gulp.task('build', ['compile-css','copy-html','copy-img','copy-js']);
-
-//Build does it once, but watch will keep watching and
-// updating my files as I tweak the src
-
-gulp.task('watch', function() {
-    gulp.watch('src/scss/*.scss',['compile-css']);
-    gulp.watch('src/*.html',['copy-html']);
-    gulp.watch('src/img/*',['copy-img']);
-    gulp.watch('src/js/*',['copy-js']);
+// Delete all CSS files
+gulp.task('css:clean', function() {
+	return del('dist/css/*.css', { force: true });
 });
 
-gulp.task('compile-css',function() {
-    return gulp.src('src/scss/*.scss')
-        .pipe(sass())
-        .pipe(gulp.dest('dist/css')
-);
+// Compile CSS
+gulp.task('css:compile', ['css:clean'], function() {
+	return gulp.src('src/scss/*.scss')
+			.pipe(sass())
+			.pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('copy-html',function() {
-    return gulp.src('src/*.html').pipe(
-        gulp.dest('dist')
-    );
+// Delete all HTML files
+gulp.task('html:clean', function() {
+	return del('dist/**/*.html', { force: true });
 });
 
-gulp.task('copy-img',function() {
-    return gulp.src('src/img/*').pipe(
-        gulp.dest('dist/img')
-    );
+// Copy all HTML files
+gulp.task('html:copy', function() {
+	return gulp.src('src/**/*.html')
+		.pipe(gulp.dest('dist/'));
 });
 
-gulp.task('copy-js',function() {
-    return gulp.src('src/js/*').pipe(
-        gulp.dest('dist/js')
-    );
+// Delete all img files such as images etc.
+gulp.task('img:clean', function() {
+	return del([
+			'dist/**/*', // delete all files
+			'!dist/**/*.html', // except html
+			'!dist/**/*.css' // except css
+	], { force: true });
+});
+
+gulp.task('img:copy', ['img:clean'], function() {
+	return gulp.src('src/img/**/*')
+			.pipe(gulp.dest('dist/img'));
+});
+
+gulp.task('build', ['css:compile', 'html:copy', 'img:copy']);
+
+gulp.task('develop', ['build'], function() {
+	gulp.watch('src/scss/*', ['css:compile']); // watch for changes in SCSS
+	gulp.watch('src/**/*.html', ['html:copy']); // watch for changes in HTML
+	gulp.watch('src/img/**/*', ['img:copy']); // watch for changes in img files
 });
