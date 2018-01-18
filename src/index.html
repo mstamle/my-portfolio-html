@@ -9,30 +9,41 @@
 </head>
 
 <body>
-    <a href="#content">Skip to content</a>
+    <a class="sr-only sr-only-focusable" href="#content">Skip to content</a>
     <header>
-        <a href="/">
-            <img src="/img/logo.svg" alt="My portfolio" width="200">
-        </a>
 
-        <nav>
-            <ul>
-                <li>
-                    <a href="#home">home</a>
-                </li>
-                <li>
-                    <a href="#skills">skills</a>
-                </li>
-                <li>
-                    <a href="#portfolio">portfolio</a>
-                </li>
-                <li>
-                    <a href="#about">about me</a>
-                </li>
-                <li>
-                    <a href="#contact">contact</a>
-                </li>
-            </ul>
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">
+                <img src="/img/logo.svg" alt="My portfolio" width="100">
+            </a>
+            <button class="navbar-toggler navbar-toggler-right" type="button"
+            data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#home">home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">about me</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">contact</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -56,8 +67,8 @@
                 <div class="col-md-3 col-sm-6">
                     <h2>Design</h2>
                     <p>We design the wireframe and agree together how to create
-                    the best experience for your users to present your
-                    brand.</p>
+                    the best experience for your users to present your brand.
+                    </p>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
@@ -221,7 +232,8 @@
                     projects in PHP and Laravel. </p>
                     <p>I am open to learning new technologies and enjoy working
                     with people who are as passionate about all web-related as
-                    me.</p>
+                    me.
+                    </p>
                     <p>I have worked for clients all across the world but
                     currently I am based in Prague, Czech Republic. </p>
                     <p>I like cats, gaming, and snowboarding. If I do not
@@ -235,9 +247,15 @@
             <h2>Contact me</h2>
 
             <h3>Find me here</h3>
-            <div class="col-sm-4"><a href="#">GitHub</a></div>
-            <div class="col-sm-4"><a href="#">Linked In</a></div>
-            <div class="col-sm-4"><a href="#">Instagram</a></div>
+            <div class="col-sm-4">
+                <a href="#">GitHub</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#">Linked In</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#">Instagram</a>
+            </div>
 
             <h3>Contact me</h3>
             <form action="http://cbp.vosk-design.cz/process-form.php"
@@ -262,6 +280,9 @@
         <p>Nice to meet you!</p>
         <p>Copyright @Aneta Webbie 2018</p>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-git.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
 </body>
 
 </html>
