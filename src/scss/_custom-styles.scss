@@ -4,7 +4,7 @@ body{
 
 .section{
     text-align: center;
-    padding: 4em;
+    padding: 2em;
 }
 .section--light{
     background-color: #e0b47b;
@@ -51,10 +51,41 @@ body{
     padding-right: 8em;
 }
 
-.skill-label {
+div.col-3.mySkill,
+div.myProgress.col-9.mySkill {
+    margin: 0;
+    padding: 0;
+}
+
+.myProgress {
+    width: 100%;
+    background-color:#e0b47b;
+}
+
+.bar {
+    width: 0%;
+    height: 1.5rem;
+    background-color: #c24b41;
+    margin-bottom: 15px;
+}
+
+.barContainer {
+    width: 100%;
+    height: 1.5em;
+    background-color: #fed7a5;
+    margin-bottom: 15px;
+}
+
+.progressLabel {
+    background-color: black;
+    margin-bottom: 15px;
     color: #e0b47b;
 }
 
-.progress {
-    margin: 1em 0;
+.card-body {
+    background-color: #e0b47b;
+    color: #4d341e;
 }
+
+
+
