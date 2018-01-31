@@ -25,15 +25,30 @@ body{
     background-size: cover;
     margin-top: 5vw;
     color: black;
+
 }
 
-.jumbotron h1,
+.jumbotron h1 {
+    margin: 8vw;
+    color: black;
+    text-shadow: 1px 1px 5px #4d341e;
+    font-size: 3.5em;
+
+
+
+}
+
 .jumbotron p {
+    font-size: 1.4em;
     margin: 8vw;
 }
 
-.jumbotron p {
-    font-size: 1.5em;
+#text-field-jumbotron {
+    width: 50%;
+    line-height: 8vw;
+    text-shadow: 1px 1px 5px rgba(224,180,123, .7);
+
+
 }
 
 #findme{
@@ -86,6 +101,15 @@ div.myProgress.col-9.mySkill {
     background-color: #e0b47b;
     color: #4d341e;
 }
+
+article.card {
+    background-color: #4d341e;
+}
+
+span.badge.badge-primary {
+    color: #e0b47b;
+}
+
 
 
 
