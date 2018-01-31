@@ -3,7 +3,7 @@
 $('.myProgress').appear();
 
 function progress(barID,value){
-    $(barID).animate({'width':value}, 500);
+    $(barID).delay(200).animate({'width':value}, 500);
 };
 
 $('.myProgress').on('appear', function() {
