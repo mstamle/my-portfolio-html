@@ -1,3 +1,139 @@
+<?php
+/**
+ * Initialization
+ */
+$dbh = new PDO('mysql:host=localhost;dbname=portfolio_contacts', 'root', 'rootroot');
+/**
+ * Define variables and set to empty values
+ * Define error variables and set to empty values
+ */
+$firstName = $lastName = $email = $phone = $message = "";
+$firstNameErr = $lastNameErr = $emailErr = $phoneErr = $messageErr = "";
+/**
+ * Remove unnecessary characters
+ */
+function test_input($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+return $data;
+}
+/**
+ * Error messages for empty fields and form validation
+ */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (empty($_POST["firstname"])) {
+    $firstNameErr = "First name is required";
+} else {
+    $firstName = test_input($_POST["firstname"]);
+    if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
+        $firstNameErr = "Please insert letters and white space";
+    }
+}
+if (empty($_POST["lastname"])) {
+    $lastNameErr = "Last name is required";
+} else {
+    $lastName = test_input($_POST["lastname"]);
+    if (!preg_match("/^[a-zA-Z ]*$/",$lastName)) {
+        $lastNameErr = "Please insert letters and white space";
+    }
+}
+if (empty($_POST["email"])) {
+    $emailErr = "Email is required";
+} else {
+    $email = test_input($_POST["email"]);
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "Please insert a valid email address";
+    }
+}
+if (empty($_POST["phone"])) {
+    $phoneNumber= "";
+} else {
+    $phoneNumber = test_input($_POST["phone"]);
+    if (!filter_var($phoneNumber, FILTER_VALIDATE_INT)) {
+        $phoneNumberErr = "Please insert a valid number";
+    }
+}
+if (empty($_POST["message"])) {
+    $messageErr = "Message is required";
+} else {
+    $message = test_input($_POST["message"]);
+}
+/**
+ * Send input fields to mysql server in case fields are filled in
+ */
+    if (!$firstName || !$lastName || !$email)
+    {
+        header('Location: ?success=no');
+        // echo 'You have not filled all the requied fields correctly.
+        // Please refill the form. Thank you!';
+    }
+    else
+    {
+        //Insert into the database
+        $statement = $dbh->prepare('INSERT INTO messages
+        (first_name,last_name,email,phone,`text`) VALUES
+        (?         ,?        ,?    ,?    ,?   )');
+        $result = $statement->execute([$firstName,$lastName,$email,$phone,$message]);
+        header('Location: ?success=yes');
+        // echo 'You have successfully sent the form.';
+    }
+}
+/**
+ * Template for outcome 'success'
+ */
+$success = filter_input(INPUT_GET, 'success');
+
+
+
+
+// if (!isset($_SESSION)) {
+//     session_start();
+// }
+
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $_SESSION['postdata'] = $_POST;
+//     unset($_POST);
+//     header("Location: ".$_SERVER['PHP_SELF']);
+//     exit;
+// }
+
+// //Initialization part
+
+// $pdo= new PDO(
+// 'mysql:dbname=portfolio_contacts;host=localhost;charset=utf8', // connection information
+// 'root', // username
+// 'rootroot' // password
+// );
+
+// //Action part
+
+// if (count($_POST)>0)
+// {
+//     $first_name = filter_input(INPUT_POST,'firstname');
+//     $last_name = filter_input(INPUT_POST,'lastname');
+//     $email = filter_input(INPUT_POST,'email', FILTER_VALIDATE_EMAIL);
+//     $phone = filter_input(INPUT_POST,'phone');
+//     $text = filter_input(INPUT_POST,'message');
+//     $_POST = [];
+
+
+//     if (!$first_name || !$last_name || !$email)
+//     {
+//         echo 'You have not filled all the requied fields correctly.
+//         Please refill the form. Thank you!';
+//     }
+//     else
+//     {
+//         //Insert into the database
+//         $statement = $pdo->prepare('INSERT INTO messages
+//         (first_name,last_name,email,phone,`text`) VALUES
+//         (?         ,?        ,?    ,?    ,?   )');
+//         $result = $statement->execute([$first_name,$last_name,$email,$phone,$text]);
+//         echo 'You have successfully sent the form.';
+//     }
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -515,140 +651,6 @@
                     message</button>
                 </div>
             </form>
-            <?php
-            /**
-             * Initialization
-             */
-            $dbh = new PDO('mysql:host=localhost;dbname=portfolio_contacts', 'root', 'rootroot');
-            /**
-             * Define variables and set to empty values
-             * Define error variables and set to empty values
-             */
-            $firstName = $lastName = $email = $phone = $message = "";
-            $firstNameErr = $lastNameErr = $emailErr = $phoneErr = $messageErr = "";
-            /**
-             * Remove unnecessary characters
-             */
-            function test_input($data) {
-            $data = trim($data);
-            $data = stripslashes($data);
-            $data = htmlspecialchars($data);
-            return $data;
-            }
-            /**
-             * Error messages for empty fields and form validation
-             */
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST["firstname"])) {
-                $firstNameErr = "First name is required";
-            } else {
-                $firstName = test_input($_POST["firstname"]);
-                if (!preg_match("/^[a-zA-Z ]*$/",$firstName)) {
-                    $firstNameErr = "Please insert letters and white space";
-                }
-            }
-            if (empty($_POST["lastname"])) {
-                $lastNameErr = "Last name is required";
-            } else {
-                $lastName = test_input($_POST["lastname"]);
-                if (!preg_match("/^[a-zA-Z ]*$/",$lastName)) {
-                    $lastNameErr = "Please insert letters and white space";
-                }
-            }
-            if (empty($_POST["email"])) {
-                $emailErr = "Email is required";
-            } else {
-                $email = test_input($_POST["email"]);
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $emailErr = "Please insert a valid email address";
-                }
-            }
-            if (empty($_POST["phone"])) {
-                $phoneNumber= "";
-            } else {
-                $phoneNumber = test_input($_POST["phone"]);
-                if (!filter_var($phoneNumber, FILTER_VALIDATE_INT)) {
-                    $phoneNumberErr = "Please insert a valid number";
-                }
-            }
-            if (empty($_POST["message"])) {
-                $messageErr = "Message is required";
-            } else {
-                $message = test_input($_POST["message"]);
-            }
-            /**
-             * Send input fields to mysql server in case fields are filled in
-             */
-                if (!$firstName || !$lastName || !$email)
-                {
-                    echo 'You have not filled all the requied fields correctly.
-                    Please refill the form. Thank you!';
-                }
-                else
-                {
-                    //Insert into the database
-                    $statement = $dbh->prepare('INSERT INTO messages
-                    (first_name,last_name,email,phone,`text`) VALUES
-                    (?         ,?        ,?    ,?    ,?   )');
-                    $result = $statement->execute([$firstName,$lastName,$email,$phone,$message]);
-                    echo 'You have successfully sent the form.';
-                }
-            }
-            /**
-             * Template for outcome 'success'
-             */
-            $success = filter_input(INPUT_GET, 'success');
-
-
-
-
-            // if (!isset($_SESSION)) {
-            //     session_start();
-            // }
-
-            // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //     $_SESSION['postdata'] = $_POST;
-            //     unset($_POST);
-            //     header("Location: ".$_SERVER['PHP_SELF']);
-            //     exit;
-            // }
-
-            // //Initialization part
-
-            // $pdo= new PDO(
-            // 'mysql:dbname=portfolio_contacts;host=localhost;charset=utf8', // connection information
-            // 'root', // username
-            // 'rootroot' // password
-            // );
-
-            // //Action part
-
-            // if (count($_POST)>0)
-            // {
-            //     $first_name = filter_input(INPUT_POST,'firstname');
-            //     $last_name = filter_input(INPUT_POST,'lastname');
-            //     $email = filter_input(INPUT_POST,'email', FILTER_VALIDATE_EMAIL);
-            //     $phone = filter_input(INPUT_POST,'phone');
-            //     $text = filter_input(INPUT_POST,'message');
-            //     $_POST = [];
-
-
-            //     if (!$first_name || !$last_name || !$email)
-            //     {
-            //         echo 'You have not filled all the requied fields correctly.
-            //         Please refill the form. Thank you!';
-            //     }
-            //     else
-            //     {
-            //         //Insert into the database
-            //         $statement = $pdo->prepare('INSERT INTO messages
-            //         (first_name,last_name,email,phone,`text`) VALUES
-            //         (?         ,?        ,?    ,?    ,?   )');
-            //         $result = $statement->execute([$first_name,$last_name,$email,$phone,$text]);
-            //         echo 'You have successfully sent the form.';
-            //     }
-            // }
-            ?>
         </section>
     </main>
 
